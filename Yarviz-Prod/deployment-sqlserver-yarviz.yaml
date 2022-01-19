@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: yarviz-mssql-deployment
+  namespace: ingress-yarviz-prod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: yarvizprod
+  template:
+    metadata:
+      labels:
+        app: yarvizprod
+    spec:
+      #terminationGracePeriodSeconds: 30
+      hostname: yarvizprod
+      #securityContext:
+        #fsGroup: 10001
+      containers:
+      - name: mssql
+        image: mcr.microsoft.com/mssql/server:2017-CU27-ubuntu-16.04
+        ports:
+          - containerPort: 1433
+        env:
+        - name: MSSQL_PID
+          value: "Developer"
+        - name: ACCEPT_EULA
+          value: "Y"
+        - name: SA_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: yarviz-sql-secret
+              key: SA_PASSWORD
+        - name: MSSQL_AGENT_ENABLED
+          value: "true"
+        - name: MSSQL_BACKUP_DIR
+          value: "/backup/"
+        volumeMounts:
+          - name: mssqldb
+            mountPath: /var/opt/mssql
+      volumes:
+        - name: mssqldb
+          persistentVolumeClaim:
+            claimName: mssql-data

@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bi-deployment
+  namespace: ingress-rds
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bi
+  template:
+    metadata:
+      name: bi-deployment
+      labels:
+        app: bi
+    spec:
+      hostname: bi
+      containers:
+        - name: bi
+          image: jpinargoteb/web_apiservice:v9.1
+          #image: jpinargoteb/web_apiservice:v10.1
+          ports:
+            - containerPort: 5050

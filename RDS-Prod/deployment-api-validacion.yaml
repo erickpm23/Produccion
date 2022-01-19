@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-validacion-deployment
+  namespace: ingress-rds
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-validacion
+  template:
+    metadata:
+      name: api-validacion-deployment
+      labels:
+        app: api-validacion
+    spec:
+      hostname: api-validacion
+      containers:
+        - name: api-validacion
+          image: devemp/api-validacion:v12
+          ports:
+            - containerPort: 80

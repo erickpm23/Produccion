@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-bi-deployment
+  namespace: ingress-rds
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend-bi
+  template:
+    metadata:
+      name: frontend-bi-deployment
+      labels:
+        app: frontend-bi
+    spec:
+      hostname: frontend-bi
+      containers:
+        - name: frontend-bi
+          image: jpinargoteb/reporting_g:v1.2.8
+          #image: jpinargoteb/reporting_g:v1.3
+          ports:
+            - containerPort: 6050

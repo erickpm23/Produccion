@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bi-sql-deployment
+  namespace: ingress-rds
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bi
+  template:
+    metadata:
+      labels:
+        app: bi
+        name: bi-sql-deployment
+    spec:
+      #terminationGracePeriodSeconds: 30
+      hostname: analitica
+      securityContext:
+        fsGroup: 10001
+      containers:
+      - name: mssql
+        image: mcr.microsoft.com/mssql/server:2017-CU27-ubuntu-16.04
+        ports:
+          - containerPort: 1433
+        env:
+        - name: MSSQL_PID
+          value: "Developer"
+        - name: ACCEPT_EULA
+          value: "Y"
+        - name: SA_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: bi-sql-secret
+              key: SA_PASSWORD
+        - name: MSSQL_AGENT_ENABLED
+          value: "true"
+        - name: MSSQL_BACKUP_DIR
+          value: "/backup/"
+        volumeMounts:
+          - name: sqldb
+            mountPath: /var/opt/mssql
+      volumes:
+        - name: sqldb
+          persistentVolumeClaim:
+            claimName: bi-sql-data
+          

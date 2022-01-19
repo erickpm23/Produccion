@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: bi-sql-service
+  namespace: ingress-rds
+  labels:
+    app: bi-sql-service
+spec:
+  type: ClusterIP
+  #type: LoadBalancer
+  ports:
+    - port: 15087
+      targetPort: 1433
+      #nodePort: 30873 
+  selector:
+    app: bi
+    name: bi-sql-deployment
