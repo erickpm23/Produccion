@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: bi-sql-deployment
-  namespace: ingress-rds
+  namespace: rds-prod
 spec:
   replicas: 1
   selector:
@@ -16,11 +16,14 @@ spec:
     spec:
       #terminationGracePeriodSeconds: 30
       hostname: analitica
-      securityContext:
-        fsGroup: 10001
+      #securityContext:
+        #fsGroup: 10001
       containers:
-      - name: mssql
+      - name: mssql-bi
         image: mcr.microsoft.com/mssql/server:2017-CU27-ubuntu-16.04
+        #resources:
+          #limits:
+            #memory: "5Gi"
         ports:
           - containerPort: 1433
         env:

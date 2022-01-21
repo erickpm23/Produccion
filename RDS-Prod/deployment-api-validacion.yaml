@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: api-validacion-deployment
-  namespace: ingress-rds
+  namespace: rds-prod
 spec:
   replicas: 1
   selector:

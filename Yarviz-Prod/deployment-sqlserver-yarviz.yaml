@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: yarviz-mssql-deployment
-  namespace: ingress-yarviz-prod
+  namespace: yarviz-prod
 spec:
   replicas: 1
   selector:
@@ -18,8 +18,11 @@ spec:
       #securityContext:
         #fsGroup: 10001
       containers:
-      - name: mssql
+      - name: mssql-yarviz
         image: mcr.microsoft.com/mssql/server:2017-CU27-ubuntu-16.04
+        #resources:
+          #limits:
+            #memory: "7Gi"
         ports:
           - containerPort: 1433
         env:
@@ -37,9 +40,9 @@ spec:
         - name: MSSQL_BACKUP_DIR
           value: "/backup/"
         volumeMounts:
-          - name: mssqldb
+          - name: yarviz-sqldb
             mountPath: /var/opt/mssql
       volumes:
-        - name: mssqldb
+        - name: yarviz-sqldb
           persistentVolumeClaim:
-            claimName: mssql-data
+            claimName: yarviz-sql-data

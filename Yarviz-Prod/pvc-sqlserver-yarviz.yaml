@@ -1,8 +1,8 @@
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
-  name: azure-disk
-  namespace: ingress-yarviz-prod
+  name: yarviz-azure-disk
+  namespace: yarviz-prod
 provisioner: kubernetes.io/azure-disk
 parameters:
   storageaccounttype: Standard_LRS
@@ -11,10 +11,10 @@ parameters:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mssql-data
-  namespace: ingress-yarviz-prod
+  name: yarviz-sql-data
+  namespace: yarviz-prod
   annotations:
-    volume.beta.kubernetes.io/storage-class: azure-disk
+    volume.beta.kubernetes.io/storage-class: yarviz-azure-disk
 spec:
   accessModes:
     - ReadWriteOnce  
