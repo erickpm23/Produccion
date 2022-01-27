@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-yarap-deployment
+  namespace: yarviz-prod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-yarap
+  template:
+    metadata:
+      name: api-yarap-deployment
+      labels:
+        app: api-yarap
+    spec:
+      hostname: api-yarap
+      containers:
+        - name: api-yarap
+          image: devemp/api-yarviz-test:v3
+          ports:
+            - containerPort: 4050
