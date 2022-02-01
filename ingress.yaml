@@ -1,0 +1,40 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress
+  namespace: ingress-basic
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    cert-manager.io/cluster-issuer: letsencrypt
+spec:
+  tls:
+  - hosts:
+    - prueba-bi.eastus.cloudapp.azure.com
+    secretName: tls-secret-ingress
+  rules:
+  - host: prueba-bi.eastus.cloudapp.azure.com
+    http:
+      paths:
+      - path: /(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: frontend-bi-service
+            port:
+              number: 80
+      - path: /validacion/(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: api-validacion-service
+            port:
+              number: 80
+      - path: /bi/(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: bi-service
+            port:
+              number: 80
