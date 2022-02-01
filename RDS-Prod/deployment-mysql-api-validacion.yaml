@@ -2,16 +2,17 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: api-validacion-mysqlserver-deployment
-  namespace: rds-prod
+  namespace: ingress-basic
+  #namespace: rds-prod
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: api-validacion
+      app: api-validacion-mysql
   template:
     metadata:
       labels:
-        app: api-validacion
+        app: api-validacion-mysql
         name: api-validacion-mysqlserver-deployment
     spec:
       hostname: emailvalidation-mysql

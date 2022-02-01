@@ -2,7 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: bi-deployment
-  namespace: rds-prod
+  namespace: ingress-basic
+  #namespace: rds-prod
 spec:
   replicas: 1
   selector:
@@ -17,7 +18,7 @@ spec:
       hostname: bi
       containers:
         - name: bi
-          image: jpinargoteb/web_apiservice:v9.1
-          #image: jpinargoteb/web_apiservice:v10.1
+          #image: jpinargoteb/web_apiservice:v9.1
+          image: jpinargoteb/web_apiservice:v10.3
           ports:
             - containerPort: 5050

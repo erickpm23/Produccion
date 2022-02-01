@@ -2,7 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontend-bi-deployment
-  namespace: rds-prod
+  namespace: ingress-basic
+  #namespace: rds-prod
 spec:
   replicas: 1
   selector:
@@ -17,7 +18,7 @@ spec:
       hostname: frontend-bi
       containers:
         - name: frontend-bi
-          image: jpinargoteb/reporting_g:v1.2.8
-          #image: jpinargoteb/reporting_g:v1.3
+          #image: jpinargoteb/reporting_g:v1.2.8
+          image: jpinargoteb/reporting_g:v1.3.2
           ports:
             - containerPort: 6050

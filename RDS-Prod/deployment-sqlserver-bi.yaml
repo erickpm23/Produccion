@@ -2,16 +2,17 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: bi-sql-deployment
-  namespace: rds-prod
+  namespace: ingress-basic
+  #namespace: rds-prod
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: bi
+      app: bi-sql
   template:
     metadata:
       labels:
-        app: bi
+        app: bi-sql
         name: bi-sql-deployment
     spec:
       #terminationGracePeriodSeconds: 30
@@ -47,4 +48,3 @@ spec:
         - name: sqldb
           persistentVolumeClaim:
             claimName: bi-sql-data
-          
